@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TeamResource\RelationManagers;
 
+use App\Models\Player;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -16,7 +17,7 @@ class PlayersRelationManager extends RelationManager {
     public function form( Form $form ): Form {
         return $form
             ->schema( [
-                Forms\Components\TextInput::make( 'first' )
+                Forms\Components\TextInput::make( 'first_name' )
                     ->required()
                     ->maxLength( 255 ),
                 Forms\Components\TextInput::make( 'last_name' )
@@ -27,11 +28,13 @@ class PlayersRelationManager extends RelationManager {
 
     public function table( Table $table ): Table {
         return $table
-            ->recordTitleAttribute( 'last_name' )
+            ->recordTitle( fn( Player $player ): string => "{$player->first_name} {$player->last_name}" )
             ->columns( [
                 Tables\Columns\TextColumn::make( 'first_name' ),
                 Tables\Columns\TextColumn::make( 'last_name' ),
-                Tables\Columns\TextColumn::make( 'salary' )->sortable(),
+                Tables\Columns\TextColumn::make( 'salary' )
+                    ->money()
+                    ->sortable(),
             ] )
             ->defaultSort( 'salary', 'desc' )
             ->filters( [
@@ -39,13 +42,14 @@ class PlayersRelationManager extends RelationManager {
             ] )
             ->headerActions( [
                 Tables\Actions\AttachAction::make()
+                    ->recordSelectSearchColumns( [ 'first_name', 'last_name' ] )
+                    ->preloadRecordSelect()
             ] )
             ->actions( [
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DetachAction::make()
             ] )
             ->bulkActions( [
-                //
+                Tables\Actions\DetachBulkAction::make(),
             ] );
     }
 }

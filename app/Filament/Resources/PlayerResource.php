@@ -8,6 +8,7 @@ use App\Models\Player;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -55,14 +56,25 @@ class PlayerResource extends Resource {
     public static function table( Table $table ): Table {
         return $table
             ->columns( [
-                Tables\Columns\TextColumn::make( 'first_name' )
-                    ->searchable(),
-                Tables\Columns\TextColumn::make( 'last_name' )
-                    ->searchable(),
-                Tables\Columns\TextColumn::make( 'salary' )
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\Layout\Split::make( [
+                    Tables\Columns\Layout\Split::make( [
+                        Tables\Columns\ImageColumn::make( 'photo' )
+                            ->circular()
+                            ->grow( false ),
+                        Tables\Columns\TextColumn::make( 'first_name' )
+                            ->searchable()
+                            ->grow( false ),
+                        Tables\Columns\TextColumn::make( 'last_name' )
+                            ->weight( FontWeight::Bold )
+                            ->searchable()
+                            ->grow( false ),
+                    ] ),
+                    Tables\Columns\TextColumn::make( 'salary' )
+                        ->money()
+                        ->sortable(),
+                ] )
             ] )
+            ->defaultSort( 'salary', 'desc' )
             ->filters( [
                 //
             ] )

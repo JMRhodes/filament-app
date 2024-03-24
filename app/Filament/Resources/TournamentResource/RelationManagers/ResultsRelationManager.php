@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TournamentResource\RelationManagers;
 
+use App\Models\Result;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -37,15 +38,15 @@ class ResultsRelationManager extends RelationManager {
 
     public function table( Table $table ): Table {
         return $table
-            ->recordTitleAttribute( 'position' )
+            ->recordTitleAttribute( 'players.last_name' )
             ->columns( [
                 Tables\Columns\TextColumn::make( 'position' )->numeric(),
                 Tables\Columns\TextColumn::make( 'players.first_name' )
-                    ->label( 'First Name' ),
-                Tables\Columns\TextColumn::make( 'players.last_name' )
-                    ->label( 'Last Name' ),
+                    ->label( 'Name' )
+                    ->formatStateUsing( fn( Result $record ): string => $record->players->first()->full_name ),
                 Tables\Columns\TextColumn::make( 'points' )->numeric(),
             ] )
+            ->paginated( false )
             ->filters( [
                 //
             ] )
@@ -53,8 +54,11 @@ class ResultsRelationManager extends RelationManager {
                 Tables\Actions\CreateAction::make(),
             ] )
             ->actions( [
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make( [
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make()
+                        ->modalHeading(__('Delete player?')),
+                ] )
             ] )
             ->bulkActions( [
                 Tables\Actions\BulkActionGroup::make( [

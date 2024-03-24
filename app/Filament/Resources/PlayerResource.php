@@ -57,25 +57,24 @@ class PlayerResource extends Resource {
     public static function table( Table $table ): Table {
         return $table
             ->columns( [
-                Tables\Columns\Layout\Split::make( [
-                    Tables\Columns\Layout\Split::make( [
-                        Tables\Columns\ImageColumn::make( 'photo' )
-                            ->circular()
-                            ->grow( false ),
-                        Tables\Columns\TextColumn::make( 'id' )
-                            ->searchable( [ 'first_name', 'last_name' ] )
-                            ->grow( false )
-                            ->weight( FontWeight::Bold )
-                            ->formatStateUsing( fn( Player $record ): string => __( "{$record->first_name} {$record->last_name}" ) )
-                            ->description( fn( Player $record ): string => Number::currency( $record->salary ) ),
-                    ] ),
-                ] )
+                Tables\Columns\ImageColumn::make( 'photo' )
+                    ->label( '' )
+                    ->circular()
+                    ->grow( false ),
+                Tables\Columns\TextColumn::make( 'first_name' )
+                    ->label( 'Name' )
+                    ->searchable( [ 'first_name', 'last_name' ] )
+                    ->weight( FontWeight::Bold )
+                    ->formatStateUsing( fn( Player $record ): string => __( "{$record->first_name} {$record->last_name}" ) )
+                    ->description( fn( Player $record ): string => "$" . number_format( $record->salary, 0 ) ),
+                Tables\Columns\TextColumn::make( 'id' )
+                    ->label( 'Points' )
+                    ->grow( false )
+                    ->formatStateUsing( fn( Player $record ): string => $record->results->sum( 'points' ) )
             ] )
             ->defaultSort( 'salary', 'desc' )
-            ->defaultPaginationPageOption( 1 )
-            ->filters( [
-                //
-            ] )
+            ->defaultPaginationPageOption( 25 )
+            ->paginated( [ 25, 50, 100, 'all' ] )
             ->actions( [
                 Tables\Actions\EditAction::make(),
             ] )

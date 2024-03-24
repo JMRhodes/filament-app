@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Number;
 
 class PlayerResource extends Resource {
     protected static ?string $model = Player::class;
@@ -61,20 +62,17 @@ class PlayerResource extends Resource {
                         Tables\Columns\ImageColumn::make( 'photo' )
                             ->circular()
                             ->grow( false ),
-                        Tables\Columns\TextColumn::make( 'first_name' )
-                            ->searchable()
-                            ->grow( false ),
-                        Tables\Columns\TextColumn::make( 'last_name' )
+                        Tables\Columns\TextColumn::make( 'id' )
+                            ->searchable( [ 'first_name', 'last_name' ] )
+                            ->grow( false )
                             ->weight( FontWeight::Bold )
-                            ->searchable()
-                            ->grow( false ),
+                            ->formatStateUsing( fn( Player $record ): string => __( "{$record->first_name} {$record->last_name}" ) )
+                            ->description( fn( Player $record ): string => Number::currency( $record->salary ) ),
                     ] ),
-                    Tables\Columns\TextColumn::make( 'salary' )
-                        ->money()
-                        ->sortable(),
                 ] )
             ] )
             ->defaultSort( 'salary', 'desc' )
+            ->defaultPaginationPageOption( 1 )
             ->filters( [
                 //
             ] )
@@ -90,7 +88,7 @@ class PlayerResource extends Resource {
 
     public static function getRelations(): array {
         return [
-            //
+            RelationManagers\ResultsRelationManager::class
         ];
     }
 

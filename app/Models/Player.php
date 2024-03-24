@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Player extends Model
-{
+class Player extends Model {
     use HasFactory;
+
     protected $table = 'players';
 
     public $timestamps = false;
@@ -18,6 +19,10 @@ class Player extends Model
         'last_name',
         'salary',
         'photo',
+    ];
+
+    protected $appends = [
+        'full_name'
     ];
 
     public function getFullNameAttribute(): string {
@@ -30,6 +35,14 @@ class Player extends Model
             'teams_players',
             'player_id',
             'team_id'
+        );
+    }
+
+    public function results(): HasMany {
+        return $this->hasMany(
+            Result::class,
+            'player_id',
+            'id'
         );
     }
 }

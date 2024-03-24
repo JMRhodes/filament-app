@@ -8,6 +8,7 @@ use App\Models\Team;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -45,6 +46,7 @@ class TeamResource extends Resource {
         return $table
             ->columns( [
                 Tables\Columns\TextColumn::make( 'name' )
+                    ->weight( FontWeight::Bold )
                     ->searchable(),
                 Tables\Columns\TextColumn::make( 'year' ),
                 Tables\Columns\IconColumn::make( 'locked' )

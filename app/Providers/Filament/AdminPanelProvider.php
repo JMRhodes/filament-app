@@ -60,6 +60,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
+                'role:Super-Admin|Admin',
                 Authenticate::class,
             ]);
     }

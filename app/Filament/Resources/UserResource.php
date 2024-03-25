@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource {
     protected static ?string $model = User::class;
@@ -46,6 +47,15 @@ class UserResource extends Resource {
                     ->searchable(),
                 Tables\Columns\TextColumn::make( 'teams.id' )
                     ->formatStateUsing( fn( Team $team ): string => $team->all()->count() ),
+                Tables\Columns\TextColumn::make( 'roles' )
+                    ->label( 'Role' )
+                    ->formatStateUsing( fn( User $user ): string => $user->getRoleNames()->first() )
+                    ->badge()
+                    ->color( fn( Role $state ): string => match ( $state->name ) {
+                        'Super-Admin' => 'success',
+                        'Admin' => 'warning',
+                        default => 'gray'
+                    } ),
                 Tables\Columns\TextColumn::make( 'created_at' )
                     ->dateTime()
                     ->sortable()

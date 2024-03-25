@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\PlayerResource\RelationManagers;
 
+use App\Filament\Resources\TournamentResource;
 use App\Models\Result;
+use App\Models\Tournament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -40,7 +42,9 @@ class ResultsRelationManager extends RelationManager {
             ] )
             ->actions( [
                 Tables\Actions\EditAction::make()
-                    ->url( fn( Result $record ): string => "https://filament.lndo.site/admin/tournaments/{$record->tournament_id}/edit" )
+                    ->url(
+                        fn( Result $tournament ): string => TournamentResource::getUrl( 'edit', [ 'record' => Tournament::Find( $tournament->tournament_id ) ] )
+                    ),
             ] )
             ->bulkActions( [
             ] );

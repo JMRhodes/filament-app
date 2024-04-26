@@ -40,11 +40,10 @@ class PlayerResource extends Resource
                             ->required()
                             ->columnSpan(3)
                             ->numeric(),
-                    ])
-                        ->columns([
-                            'sm' => 6,
-                            'md' => 12,
-                        ]),
+                    ])->columns([
+                        'sm' => 6,
+                        'md' => 12,
+                    ]),
                     Components\Section::make([
                         Components\FileUpload::make('photo')
                             ->avatar()
@@ -77,8 +76,9 @@ class PlayerResource extends Resource
                     ->formatStateUsing(fn (Player $record): string => $record->results->sum('points')),
             ])
             ->defaultSort('salary', 'desc')
-            ->defaultPaginationPageOption(25)
-            ->paginated([25, 50, 100, 'all'])
+            ->extremePaginationLinks()
+            ->paginated([10, 25, 50, 100, 'all'])
+            ->defaultPaginationPageOption(50)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

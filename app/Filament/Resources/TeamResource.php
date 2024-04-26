@@ -30,10 +30,15 @@ class TeamResource extends Resource
                     Components\Section::make('Team Info')->schema([
                         Components\TextInput::make('name')
                             ->required()
+                            ->columnSpan(12)
                             ->maxLength(255),
                         Components\TextInput::make('year')
+                            ->columnSpan(4)
                             ->required(),
-                    ])->columnSpan(8),
+                    ])->columns([
+                        'sm' => 6,
+                        'md' => 12,
+                    ]),
                     Components\Section::make([
                         Components\Select::make('user_id')
                             ->relationship('user', 'name')

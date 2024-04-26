@@ -73,6 +73,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            ->extremePaginationLinks()
+            ->paginated([10, 25, 50, 100, 'all'])
+            ->defaultPaginationPageOption(50)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

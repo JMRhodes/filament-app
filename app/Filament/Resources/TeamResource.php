@@ -16,6 +16,10 @@ class TeamResource extends Resource
 {
     protected static ?string $model = Team::class;
 
+    protected static ?string $navigationGroup = 'Resources';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public static function form(Form $form): Form
@@ -56,19 +60,9 @@ class TeamResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
+            ->defaultSort('name', 'asc')
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

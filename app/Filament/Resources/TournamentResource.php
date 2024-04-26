@@ -16,6 +16,10 @@ class TournamentResource extends Resource
 {
     protected static ?string $model = Tournament::class;
 
+    protected static ?string $navigationGroup = 'Resources';
+
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationIcon = 'heroicon-o-table-cells';
 
     public static function form(Form $form): Form
@@ -65,9 +69,7 @@ class TournamentResource extends Resource
                     ->date()
                     ->sortable(),
             ])
-            ->filters([
-                //
-            ])
+            ->defaultSort('ended_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

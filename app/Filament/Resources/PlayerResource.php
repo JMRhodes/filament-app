@@ -16,6 +16,10 @@ class PlayerResource extends Resource
 {
     protected static ?string $model = Player::class;
 
+    protected static ?string $navigationGroup = 'Resources';
+
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form

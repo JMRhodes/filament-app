@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Result extends Model {
+class Result extends Model
+{
     use HasFactory;
 
     protected $table = 'results';
@@ -16,10 +17,11 @@ class Result extends Model {
         'tournament_id',
         'player_id',
         'points',
-        'position'
+        'position',
     ];
 
-    public function players(): BelongsToMany {
+    public function players(): BelongsToMany
+    {
         return $this->belongsToMany(
             Player::class,
             'results',
@@ -27,7 +29,8 @@ class Result extends Model {
             'player_id');
     }
 
-    public function tournament(): BelongsTo {
-        return $this->belongsTo( Tournament::class );
+    public function tournament(): BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
     }
 }

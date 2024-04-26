@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tournament_id')->constrained();
             $table->foreignId('player_id')->constrained();
-            $table->integer( 'points' );
-            $table->string( 'position' );
+            $table->integer('points');
+            $table->string('position');
             $table->timestamps();
         });
     }

@@ -7,20 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Team extends Model {
+class Team extends Model
+{
     use HasFactory;
 
     protected $table = 'teams';
 
     public $timestamps = false;
+
     protected $fillable = [
         'user_id',
         'name',
         'year',
-        'locked'
+        'locked',
     ];
 
-    public function players(): BelongsToMany {
+    public function players(): BelongsToMany
+    {
         return $this->belongsToMany(
             Player::class,
             'teams_players',
@@ -29,7 +32,8 @@ class Team extends Model {
         );
     }
 
-    public function user(): BelongsTo {
-        return $this->belongsTo( User::class );
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

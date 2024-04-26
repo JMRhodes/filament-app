@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Player extends Model {
+class Player extends Model
+{
     use HasFactory;
 
     protected $table = 'players';
@@ -22,14 +23,16 @@ class Player extends Model {
     ];
 
     protected $appends = [
-        'full_name'
+        'full_name',
     ];
 
-    public function getFullNameAttribute(): string {
-        return $this->first_name . ' ' . $this->last_name;
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 
-    public function teams(): BelongsToMany {
+    public function teams(): BelongsToMany
+    {
         return $this->belongsToMany(
             Team::class,
             'teams_players',
@@ -38,7 +41,8 @@ class Player extends Model {
         );
     }
 
-    public function results(): HasMany {
+    public function results(): HasMany
+    {
         return $this->hasMany(
             Result::class,
             'player_id',

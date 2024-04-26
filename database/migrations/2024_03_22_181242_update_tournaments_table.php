@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table( 'tournaments', function ( Blueprint $table ) {
-            $table->text( 'photo' )->nullable();
-        } );
+        Schema::table('tournaments', function (Blueprint $table) {
+            $table->text('photo')->nullable();
+        });
     }
 
     /**

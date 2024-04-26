@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\PlayerResource\Widgets;
 
-use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 

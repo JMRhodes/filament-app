@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create( 'teams', function ( Blueprint $table ) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger( 'user_id' );
-            $table->string( 'name' );
+            $table->unsignedBigInteger('user_id');
+            $table->string('name');
             $table->year('year');
             $table->boolean('locked');
-            $table->foreign( 'user_id' )->references( 'id' )->on( 'users' );
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
-        } );
+        });
     }
 
     /**
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists( 'teams' );
+        Schema::dropIfExists('teams');
     }
 };

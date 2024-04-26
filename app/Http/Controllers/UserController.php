@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 
@@ -13,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UserCollection(User::paginate());
+        return UserResource::collection(User::paginate());
     }
 
     /**
@@ -21,6 +20,6 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        return new UserResource(User::findOrFail($id));
+        return UserResource::make(User::findOrFail($id));
     }
 }

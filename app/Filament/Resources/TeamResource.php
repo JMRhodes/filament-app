@@ -60,7 +60,7 @@ class TeamResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
-                    ->sortable()
+                    ->sortable(),
             ])
             ->defaultSort('name', 'asc')
             ->actions([
